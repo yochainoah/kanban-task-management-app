@@ -3,16 +3,21 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import taskRouter from "./routes/taskRoutes.js";
 import boardRouter from "./routes/boardRoutes.js";
-import cors from 'cors';
-
+import cors from "cors";
 
 dotenv.config();
 const app = express();
 // automatically parse incoming json
-mongoose.set('strictPopulate', false);
+mongoose.set("strictPopulate", false);
 app.use(express.json());
-app.use(cors()) // allows requests from anywhere
-app.options('*', cors());
+app.use(cors()); // allows requests from anywhere
+app.use(
+  cors({
+    origin: "https://kanban-task-management-app-frontend.vercel.app/",
+  })
+);
+
+app.options("*", cors());
 app.use(taskRouter);
 
 app.use(boardRouter);
@@ -34,5 +39,3 @@ async function connect() {
   }
 }
 connect();
-
-
